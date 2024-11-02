@@ -3,17 +3,19 @@ import ReactDOM from "react-dom/client";
 
 import "./index.scss";
 
+import Header from "home/Header";
+import Footer from "home/Footer";
+
 const App = () => (
-  <div className="mt-10 text-3xl mx-auto max-w-6xl">
-    <div>Name: pdp</div>
-    <div>Framework: react</div>
-    <div>Language: JavaScript</div>
-    <div>CSS: Tailwind</div>
+  <div className="text-3xl mx-auto max-w-6xl">
+    <Header />
+    <div className="my-10 text-yellow-700">PDP Page Content</div>
+    <Footer />
   </div>
 );
-const rootElement = document.getElementById("app")
-if (!rootElement) throw new Error("Failed to find the root element")
+const rootElement = document.getElementById("app");
+if (!rootElement) throw new Error("Failed to find the root element");
 
-const root = ReactDOM.createRoot(rootElement)
+const root = ReactDOM.createRoot(rootElement);
 
-root.render(<App />)
+root.render(<App />);
