@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 
 import "./index.scss";
 
@@ -9,7 +9,7 @@ import Footer from "home/Footer";
 const App = () => (
   <div className="text-3xl mx-auto max-w-6xl">
     <Header />
-    <div className="my-10 text-yellow-700">PDP Page Content</div>
+    <div className="my-10">PDP Page Content</div>
     <Footer />
   </div>
 );
