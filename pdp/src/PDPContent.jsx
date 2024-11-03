@@ -3,18 +3,19 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 import { getProductById, currency } from "home/products";
+import { useParams } from "react-router-dom";
 
 const PDPContent = () => {
-  const productId = 1;
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    if (productId) {
-      getProductById(productId).then((product) => setProduct(product));
+    if (id) {
+      getProductById(id).then((product) => setProduct(product));
     } else {
       setProduct(null);
     }
-  }, [productId]);
+  }, [id]);
 
   if (!product) return null;
 
