@@ -9,7 +9,8 @@ const CartContent = () => {
 
   useEffect(() => {
     // login("sally", "123");
-    return jwt.subscribe((val) => setToken(val ?? ""));
+    const subscription = jwt.subscribe((val) => setToken(val ?? ""));
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
