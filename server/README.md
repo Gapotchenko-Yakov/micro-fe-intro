@@ -1,36 +1,28 @@
-Static files are served out of the public directory.
+## API Documentation
 
-```
-$ curl http://localhost:8080/placeholder.txt
-$ # result -> Put your static files in this directory and then delete this file.
-```
+1. **Static Files**  
+   Static files are served from the `public` directory. Example request to retrieve the `placeholder.txt` file in PowerShell:  
+   Invoke-WebRequest -Uri http://localhost:8080/placeholder.txt
+   Result: "Put your static files in this directory and then delete this file."
 
-You can have un-authorized routes.
+2. **Unauthorized Routes**  
+   You can access unauthorized routes without a token. Example request to an unauthorized route:  
+   Invoke-WebRequest -Uri http://localhost:8080/unauthorized
+   Result: `true`
 
-```
-$ curl http://localhost:8080/unauthorized
-$ # result -> true
-```
+3. **Authorized Routes (without JWT)**  
+   Attempting to access an authorized route without a JWT token will result in a 401 Unauthorized error. Example request:  
+   Invoke-WebRequest -Uri http://localhost:8080/authorized
+   Result: `{"statusCode":401,"message":"Unauthorized"}`
 
-Trying authorized routes without a JWT will result in a 401.
+4. **Authentication Route `/auth/login`**  
+   Use the `/auth/login` route to authenticate and retrieve a token. Example request for login with JSON body:  
+   $headers = @{ "Content-Type" = "application/json" }  
+   $body = '{ "username": "maria", "password": "123" }'
+   Invoke-WebRequest -Uri http://localhost:8080/auth/login -Method POST -Body $body -Headers $headers
+   Result: `{"access_token":"<JWT_token>"}`
 
-```
-$ curl http://localhost:8080/authorized
-$ # result -> {"statusCode":401,"message":"Unauthorized"}                                 
-```
-
-Use the `/auth/login` route to login.
-
-```
-$ # POST /auth/login
-$ curl -X POST http://localhost:8080/auth/login -d '{"username": "maria", "password": "123"}' -H "Content-Type: application/json"
-$ # result -> {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vybm... }
-```
-
-Send the JWT to authorized routes using the `Authorization` header and prefixing the JWT with `Bearer `.
-
-```
-$ # GET /profile using access_token returned from previous step as bearer code
-$ curl http://localhost:8080/authorized -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vybm..."
-$ # result -> {"userId":2}
-```
+5. **Cart Routes with JWT Token**  
+   Use the obtained JWT token to access authorized routes by adding an `Authorization` header with the `Bearer` prefix. Example request to the `/cart` route with the token:  
+   Invoke-WebRequest -Uri http://localhost:8080/cart -Headers @{ "Authorization" = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlhIiwic3ViIjoyLCJpYXQiOjE3MzA2NDYwNzAsImV4cCI6MTczMDczMjQ3MH0.qU2OUgDVT6JYKELRlwO9cQGpwmqtUIZbeYz4xFbW0VA" }
+   Result: `{"userId":2}`
